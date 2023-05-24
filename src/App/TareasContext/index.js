@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocalStorage } from "./useLocalStorage";
+import Swal from "sweetalert2";
 
 const TareasContext = React.createContext();
 
@@ -56,12 +57,16 @@ function TareasProvider({ children }) {
     return acc;
   }, []);
   const realizarTarea = (idTarea, idSubtarea) => {
-    console.log(idTarea, idSubtarea);
-
-    console.log(tareas);
+   
     const errores = detectarErrores(`${idTarea}.${idSubtarea}`);
     if (errores !== "") {
-      alert(errores)
+      Swal.fire({
+        title: "Error!!",
+        text: errores,
+        icon: "error",
+        buttons: true,
+        dangerMode: true,
+      });
     } else {
       const newItems = [...tareas];
       const tareaIndex = newItems.findIndex((tarea) => tarea.id === idTarea);
